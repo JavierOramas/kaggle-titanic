@@ -3,7 +3,7 @@
 # %%
 # from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.naive_bayes import 
+from sklearn.naive_bayes import GaussianNB
 import pandas as pd
 import numpy as np
 
@@ -38,7 +38,8 @@ y = train['Survived']
 X = train.drop(['Survived', 'Name', 'Ticket', 'Cabin', 'Embarked'], 1)
 X = prepare_data(X)
 # lr = LinearRegression()
-model = KNeighborsClassifier(5, n_jobs=12)
+# model = KNeighborsClassifier(10, n_jobs=12)
+model = GaussianNB()
 
 
 # %%
@@ -53,8 +54,9 @@ test
 
 # %%
 model.fit(X,y)
-prediction = pd.DataFrame(abs(model.predict(test).round()))
+prediction = pd.DataFrame()
 prediction['PassengerId'] = test['PassengerId']
+prediction['Survived'] = model.predict(test)
 
 
 # %%
